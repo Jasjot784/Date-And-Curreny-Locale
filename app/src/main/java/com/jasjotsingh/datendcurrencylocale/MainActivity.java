@@ -23,6 +23,7 @@ import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
@@ -43,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
 
     // TODO: Get locale's currency.
+    private NumberFormat mCurrencyFormat =
+            NumberFormat.getCurrencyInstance();
 
     /**
      * Creates the view with a toolbar for the options menu
@@ -80,8 +83,31 @@ public class MainActivity extends AppCompatActivity {
         expirationDateView.setText(myFormattedDate);
 
         // TODO: Apply the exchange rate and calculate the price.
+        String myFormattedPrice;
+        String deviceLocale = Locale.getDefault().getCountry();
+// If country code is France or Israel, calculate price
+// with exchange rate and change to the country's currency format.
+        if (deviceLocale.equals("FR") || deviceLocale.equals("IL")) {
+            if (deviceLocale.equals("FR")) {
+                // Calculate mPrice in euros.
+                mPrice *= mFrExchangeRate;
+            } else {
+                // Calculate mPrice in new shekels.
+                mPrice *= mIwExchangeRate;
+            }
+            // Use the user-chosen locale's currency format, which
+            // is either France or Israel.
+            myFormattedPrice = mCurrencyFormat.format(mPrice);
+        } else {
+            // mPrice is the same (based on U.S. dollar).
+            // Use the currency format for the U.S.
+            mCurrencyFormat = NumberFormat.getCurrencyInstance(Locale.US);
+            myFormattedPrice = mCurrencyFormat.format(mPrice);
+        }
 
         // TODO: Show the price string.
+        TextView localePrice = (TextView) findViewById(R.id.price);
+        localePrice.setText(myFormattedPrice);
 
         // Get the EditText view for the entered quantity.
         final EditText enteredQuantity = (EditText) findViewById(R.id.quantity);
