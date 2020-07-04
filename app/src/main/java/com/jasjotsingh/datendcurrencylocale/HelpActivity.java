@@ -7,8 +7,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class HelpActivity extends AppCompatActivity {
 
@@ -33,6 +38,7 @@ public class HelpActivity extends AppCompatActivity {
                 callSupportCenter(phoneNumber);
             }
         });
+
     }
 
     /**

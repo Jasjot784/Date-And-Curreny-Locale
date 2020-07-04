@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.DateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -66,6 +67,11 @@ public class MainActivity extends AppCompatActivity {
         myDate.setTime(expirationDate);
 
         // TODO: Format the date for the locale.
+        String myFormattedDate =
+                DateFormat.getDateInstance().format(myDate);
+        // Display the formatted date.
+        TextView expirationDateView = (TextView) findViewById(R.id.date);
+        expirationDateView.setText(myFormattedDate);
 
         // TODO: Apply the exchange rate and calculate the price.
 
